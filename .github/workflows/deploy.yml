@@ -44,12 +44,18 @@ jobs:
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
 
-      - name: Echo Deploy Context workflow_dispatch
+      - name: set vars for workflow_dispatch
+        run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}"
+        if: $${{ github.event.inputs.deployTarget != null }}
+
+
+      - name: set vars for workflow_call
+        run: echo "computedDeployTarget=${{ inputs.deployTarget }}"
+        if: $${{ inputs.deployTarget != null }}
+
+
+      - name: Echo Deploy Context
         run: |
-          echo the deployTaget was '${{ github.event.inputs.deployTarget }}'
-
-
-      - name: Echo Deploy Context workflow_call
-        run: |
-          echo the deployTaget was '${{ inputs.deployTarget }}'
-
+          echo workflow_dispatch context deployTaget was '${{ github.event.inputs.deployTarget }}'
+          echo workflow_call context deployTaget was '${{ inputs.deployTarget }}'
+          echo deployContext to use is: ${{ env.computedDeployTarget }}

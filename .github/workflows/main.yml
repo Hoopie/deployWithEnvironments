@@ -32,7 +32,7 @@ jobs:
   # Call the deploy workflow file
   call-workflow-deploy:
     uses: ./.github/workflows/deploy.yml
-    name: deploy staging
+    name: Staging
     needs: build
     #if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     with:
