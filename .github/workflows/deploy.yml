@@ -46,12 +46,12 @@ jobs:
 
       - name: set vars for workflow_dispatch
         run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}"
-        if: $${{ github.event.inputs.deployTarget != null }}
+        if: ${{ github.event.inputs.deployTarget != null }}
 
 
       - name: set vars for workflow_call
         run: echo "computedDeployTarget=${{ inputs.deployTarget }}"
-        if: $${{ inputs.deployTarget != null }}
+        if: ${{ inputs.deployTarget != null }}
 
 
       - name: Echo Deploy Context
