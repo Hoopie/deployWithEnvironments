@@ -25,13 +25,13 @@ jobs:
     runs-on: ubuntu-latest
 
     # Attempt to set the environment for the job and thus trigger a github.deployment to this environment.
-    environment: ${{ inputs.deployTarget }}
+   # environment: ${{ inputs.deployTarget }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
       - name: Run a one-line script
         run: |
-          echo the deployTaget was ${{ inputs.deployTarget }}
+          echo the deployTaget was ${{ github.event.inputs }}
           echo BUT... did we trigger a deployment to this environment ??
 
