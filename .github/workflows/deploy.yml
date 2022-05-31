@@ -25,13 +25,22 @@ jobs:
     runs-on: ubuntu-latest
 
     # Attempt to set the environment for the job and thus trigger a github.deployment to this environment.
-   # environment: ${{ inputs.deployTarget }}
+    # environment: ${{ inputs.deployTarget }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-      - name: Run a one-line script
-        run: |
-          echo the deployTaget was ${{ toJSON(github.event) }}
-          echo BUT... did we trigger a deployment to this environment ??
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
 
