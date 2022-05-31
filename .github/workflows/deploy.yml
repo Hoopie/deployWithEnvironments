@@ -24,11 +24,11 @@ jobs:
 
     steps:
       - name: set vars for workflow_dispatch
-        run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}"
+        run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}" >> $GITHUB_ENV
         if: ${{ github.event.inputs.deployTarget != null }}
 
       - name: set vars for workflow_call
-        run: echo "computedDeployTarget=${{ inputs.deployTarget }}"
+        run: echo "computedDeployTarget=${{ inputs.deployTarget }}" >> $GITHUB_ENV
         if: ${{ inputs.deployTarget != null }}
 
       - name: Echo Deploy Context
