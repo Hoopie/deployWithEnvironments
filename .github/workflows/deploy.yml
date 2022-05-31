@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # Attempt to set the environment for the job and thus trigger a github.deployment to this environment.
-    # environment: ${{ inputs.deployTarget }}
+    environment: ${{ github.event.inputs.deployTarget }}
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
