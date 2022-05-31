@@ -32,6 +32,6 @@ jobs:
 
       - name: Run a one-line script
         run: |
-          echo the deployTaget was ${{ toJSON(github.event.inputs) }}
+          echo the deployTaget was ${{ toJSON(github.event) }}
           echo BUT... did we trigger a deployment to this environment ??
 
