@@ -19,9 +19,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  SetVars:
+  SetDeployTarget:
     runs-on: ubuntu-latest
-
     steps:
       - name: set vars for workflow_dispatch
         run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}" >> $GITHUB_ENV
@@ -32,11 +31,14 @@ jobs:
         if: ${{ inputs.deployTarget != null }}
 
       - name: Echo Deploy Context
+        id: doit
         run: |
           echo workflow_dispatch context deployTaget was '${{ github.event.inputs.deployTarget }}'
           echo workflow_call context deployTaget was '${{ inputs.deployTarget }}'
           echo deployContext to use is: ${{ env.computedDeployTarget }}
-
+          echo "::set-output name=deployTarget::${{ env.computedDeployTarget }}"
+    outputs:
+      deployTarget: ${{ steps.doit.outputs.deployTarget }}
 
 
   # This workflow contains a single job called "build"
@@ -44,14 +46,16 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     name: Deploy ${{ github.event.inputs.deployTarget }}
+    needs: SetDeployTarget
     # Attempt to set the environment for the job and thus trigger a github.deployment to this environment.
-    environment: ${{ github.event.inputs.deployTarget }}
+    #environment: ${{ needs.SetDeployTarget.outputs.deployTarget }}
+    
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
       - name: Echo Deploy Target       
-        run: echo '${{ env.computedDeployTarget }}'
+        run: echo '${{ needs.SetDeployTarget.outputs.deployTarget }}'
 
 
 
