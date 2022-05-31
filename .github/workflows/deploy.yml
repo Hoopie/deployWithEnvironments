@@ -12,7 +12,7 @@ on:
         
   workflow_dispatch:
     inputs: 
-      environment:
+      deployTarget:
         description: Select the environment to deploy
         required: true
         type: environment
