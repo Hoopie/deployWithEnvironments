@@ -44,3 +44,7 @@ jobs:
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
 
+      - name: Echo Deploy Context
+        run: |
+          echo the deployTaget was '${{ github.event.inputs.deployTarget }}'
+
