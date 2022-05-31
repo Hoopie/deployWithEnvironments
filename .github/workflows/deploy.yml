@@ -19,6 +19,26 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  SetVars:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: set vars for workflow_dispatch
+        run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}"
+        if: ${{ github.event.inputs.deployTarget != null }}
+
+      - name: set vars for workflow_call
+        run: echo "computedDeployTarget=${{ inputs.deployTarget }}"
+        if: ${{ inputs.deployTarget != null }}
+
+      - name: Echo Deploy Context
+        run: |
+          echo workflow_dispatch context deployTaget was '${{ github.event.inputs.deployTarget }}'
+          echo workflow_call context deployTaget was '${{ inputs.deployTarget }}'
+          echo deployContext to use is: ${{ env.computedDeployTarget }}
+
+
+
   # This workflow contains a single job called "build"
   deploy:
     # The type of runner that the job will run on
@@ -30,32 +50,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-      - name: Dump GitHub context
-        id: github_context_step
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump job context
-        run: echo '${{ toJSON(job) }}'
-      - name: Dump steps context
-        run: echo '${{ toJSON(steps) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump strategy context
-        run: echo '${{ toJSON(strategy) }}'
-      - name: Dump matrix context
-        run: echo '${{ toJSON(matrix) }}'
-
-      - name: set vars for workflow_dispatch
-        run: echo "computedDeployTarget=${{ github.event.inputs.deployTarget }}"
-        if: ${{ github.event.inputs.deployTarget != null }}
+      - name: Echo Deploy Target       
+        run: echo '${{ env.computedDeployTarget }}'
 
 
-      - name: set vars for workflow_call
-        run: echo "computedDeployTarget=${{ inputs.deployTarget }}"
-        if: ${{ inputs.deployTarget != null }}
 
-
-      - name: Echo Deploy Context
-        run: |
-          echo workflow_dispatch context deployTaget was '${{ github.event.inputs.deployTarget }}'
-          echo workflow_call context deployTaget was '${{ inputs.deployTarget }}'
-          echo deployContext to use is: ${{ env.computedDeployTarget }}
