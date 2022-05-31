@@ -17,7 +17,6 @@ on:
         required: true
         type: environment
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   SetDeployTarget:
     runs-on: ubuntu-latest
@@ -47,13 +46,11 @@ jobs:
     runs-on: ubuntu-latest
     name: Deploy ${{ github.event.inputs.deployTarget }}
     needs: SetDeployTarget
+
     # Attempt to set the environment for the job and thus trigger a github.deployment to this environment.
-    #environment: ${{ needs.SetDeployTarget.outputs.deployTarget }}
+    environment: ${{ needs.SetDeployTarget.outputs.deployTarget }}
     
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
       - name: Echo Deploy Target       
         run: echo '${{ needs.SetDeployTarget.outputs.deployTarget }}'
 
